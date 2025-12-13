@@ -2,7 +2,7 @@
 
 > 🔧 **자주 발생하는 문제와 해결 방법을 정리합니다. 에러 발생 시 여기를 먼저 확인하세요!**
 
-**마지막 업데이트**: YYYY-MM-DD
+**마지막 업데이트**: 2025-12-13
 
 ---
 
@@ -113,6 +113,30 @@ ModuleNotFoundError: No module named 'src'
 ---
 
 ## 💾 데이터베이스
+
+### ❌ 문제: PostgreSQL 설치 시 "Illegal characters in path" 오류
+```
+Error running PowerShell... Processing -File 'C:\Users\???\...' failed: Illegal characters in path
+```
+
+#### 원인
+Windows 사용자 이름에 한글이 포함되어 있으면 TEMP 폴더 경로를 인식하지 못함
+
+#### 해결 방법
+1. **영문 TEMP 폴더 생성**
+   ```cmd
+   mkdir C:\Temp
+   ```
+
+2. **환경 변수 변경**
+   - `Win + R` → `sysdm.cpl` → 고급 → 환경 변수
+   - 사용자 변수에서 `TEMP`와 `TMP` 값을 `C:\Temp`로 변경
+
+3. **컴퓨터 재시작 또는 로그아웃/로그인**
+
+4. **PostgreSQL 설치 재시도**
+
+---
 
 ### ❌ 문제: 데이터베이스 연결 실패
 ```
@@ -229,6 +253,43 @@ Access to fetch blocked by CORS policy
    # 프로덕션
    allow_origins=["https://yourdomain.com"]  # 특정 도메인만
    ```
+
+---
+
+### ❌ 문제: 500 Internal Server Error + "Unexpected end of JSON input"
+```
+GET /api/myspace/my 500 (Internal Server Error)
+SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
+```
+
+#### 원인
+- 백엔드 서버가 크래시하여 응답을 보내지 못함
+- 빈 응답을 JSON으로 파싱하려고 시도할 때 발생
+
+#### 해결 방법
+1. **백엔드 서버 로그 확인**
+   ```bash
+   # 서버 터미널에서 에러 메시지 확인
+   # 또는 nodemon이 실행 중인 터미널 확인
+   ```
+
+2. **일반적인 원인: 모듈 로드 실패**
+   ```bash
+   # 에러 예시
+   Cannot find module 'fluent-ffmpeg'
+
+   # 해결: 패키지 설치
+   npm install fluent-ffmpeg @types/fluent-ffmpeg
+   ```
+
+3. **서버 재시작**
+   ```bash
+   # 서버 프로세스 종료 후 재시작
+   npm run dev:server
+   ```
+
+#### 관련 History
+- History #21 - FFmpeg 모듈 오류 수정
 
 ---
 

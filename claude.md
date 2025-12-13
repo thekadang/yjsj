@@ -4,6 +4,92 @@
 
 ---
 
+## 🚀 빠른 시작 가이드
+
+### 개발 서버 실행
+```bash
+# 전체 실행 (프론트엔드 + 백엔드)
+npm run dev
+
+# 개별 실행
+npm run dev:server   # 백엔드 (포트 3000)
+npm run dev:client   # 프론트엔드 (포트 5173)
+```
+
+### 코드 검증
+```bash
+# 프론트엔드 린트 검사
+cd client && npm run lint
+
+# TypeScript 타입 검사
+cd client && npx tsc --noEmit
+
+# 프론트엔드 빌드
+cd client && npm run build
+```
+
+### Git 워크플로우
+```bash
+git checkout design    # 현재 개발 브랜치
+git status            # 변경 사항 확인
+git add . && git commit -m "메시지"
+```
+
+---
+
+## 🏗️ 아키텍처 개요
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       클라이언트                              │
+│  React 19 + Vite + styled-components + React Router         │
+│  (localhost:5173)                                            │
+└────────────────────────────┬────────────────────────────────┘
+                             │ HTTP API
+┌────────────────────────────▼────────────────────────────────┐
+│                        백엔드                                 │
+│  Node.js + Express + TypeScript                              │
+│  (localhost:3000)                                            │
+│  Routes: /api/auth, /api/users, /api/media                   │
+└────────────────────────────┬────────────────────────────────┘
+                             │ SQL
+┌────────────────────────────▼────────────────────────────────┐
+│                     데이터베이스                               │
+│  PostgreSQL (forever_love)                                   │
+│  Tables: users, media, diaries                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 기술 스택
+| 영역 | 기술 |
+|------|------|
+| 프론트엔드 | React 19, Vite, styled-components, React Router 7 |
+| 백엔드 | Node.js, Express, TypeScript |
+| 데이터베이스 | PostgreSQL |
+| 인증 | JWT + bcrypt |
+| 미디어 처리 | sharp, multer |
+
+---
+
+## 📊 현재 프로젝트 상태
+
+**마지막 업데이트**: 2025-12-13
+
+### 완료된 단계
+- ✅ 1단계: 프로젝트 초기화 및 디자인 마이그레이션
+- ✅ 2단계: 인증 및 회원가입 시스템
+- ✅ 2.5단계: 프론트엔드 리팩토링 (styled-components)
+- ✅ 데이터베이스 설정 (PostgreSQL)
+- ✅ 3단계: 친구 관계 시스템 (백엔드 + 프론트엔드)
+- ✅ 4단계: 마이 스페이스 및 미디어 기능
+
+### 예정된 작업
+- 📋 5단계: 배포 및 최종 검증
+
+> 상세한 작업 진행 상황: `docs/task.md`
+
+---
+
 ## 📌 핵심 원칙 (항상 준수)
 
 1. **One Source of Truth** - 중복 금지, 모든 정보는 단일 출처
@@ -289,23 +375,6 @@
 
 ---
 
-## 📚 문서 위치
-
-```
-docs/
-├── task.md            # 작업 진행 상황 (가장 자주 참조)
-├── history.md         # 모든 작업 이력 및 롤백 (클리어 후 필수) ⭐
-├── structure.md       # 프로젝트 구조 (파일 위치)
-├── conventions.md     # 코딩 규칙 (상세)
-├── decisions.md       # 기술 결정 기록
-├── troubleshooting.md # 문제 해결
-├── architecture.md    # 시스템 설계
-├── api.md            # API 명세
-└── setup.md          # 환경 설정
-```
-
----
-
 ## ⚡ AI 동작 원칙
 
 ### 판단 순서
@@ -326,6 +395,157 @@ docs/
 IF 사용자 의도 불명확:
   → docs/task.md 먼저 확인 (계획된 작업일 수 있음)
   → 그래도 모르겠으면 사용자에게 질문
+```
+
+---
+
+## 🎨 프론트엔드 스타일링 가이드라인
+
+> ⚠️ **중요**: 이 섹션은 모든 프론트엔드 코드 작성 시 반드시 준수해야 합니다.
+
+### 스타일링 방식: styled-components (필수)
+
+**절대 사용 금지:**
+```tsx
+// ❌ 인라인 스타일 금지
+<button style={{ padding: '12px', backgroundColor: '#333' }}>
+
+// ❌ 하드코딩 색상/크기 금지
+const color = '#333333';
+const padding = '12px';
+```
+
+**반드시 사용:**
+```tsx
+// ✅ styled-components 사용
+import styled from 'styled-components';
+
+const Button = styled.button`
+  padding: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
+
+// ✅ 테마 변수 사용
+const StyledInput = styled.input`
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: ${({ theme }) => theme.fontSize.md};
+`;
+```
+
+### 테마 시스템 (styles/theme.ts)
+
+**색상 사용:**
+```tsx
+theme.colors.primary      // #333333 (주요 버튼, 텍스트)
+theme.colors.secondary    // #666666 (보조 텍스트)
+theme.colors.border       // #dddddd (테두리)
+theme.colors.error        // #f44336 (에러)
+theme.colors.kakao        // #FEE500 (카카오 버튼)
+theme.colors.google       // #ffffff (구글 버튼)
+```
+
+**간격 사용:**
+```tsx
+theme.spacing.xs   // 4px
+theme.spacing.sm   // 8px
+theme.spacing.md   // 12px
+theme.spacing.lg   // 16px
+theme.spacing.xl   // 20px
+```
+
+**둥근 모서리:**
+```tsx
+theme.borderRadius.sm   // 5px
+theme.borderRadius.md   // 8px
+theme.borderRadius.lg   // 15px
+```
+
+### 공통 컴포넌트 사용 (components/common/)
+
+**새 UI 작성 시 반드시 확인:**
+```
+components/common/
+├── Button.tsx      # 버튼 (Primary, Secondary, Kakao, Google)
+├── Input.tsx       # 입력 필드
+├── FormGroup.tsx   # 라벨 + 입력 조합
+├── Card.tsx        # 카드 컨테이너
+└── Modal.tsx       # 모달 베이스
+```
+
+**사용 예시:**
+```tsx
+import { Button, Input, FormGroup } from '../components/common';
+
+<FormGroup label="이메일">
+  <Input type="email" placeholder="이메일 입력" fullWidth />
+</FormGroup>
+<Button variant="primary" fullWidth>로그인</Button>
+<Button variant="kakao" fullWidth>카카오 로그인</Button>
+```
+
+### 컴포넌트 작성 규칙
+
+1. **스타일드 컴포넌트 파일 내 정의**
+```tsx
+// ✅ 같은 파일에 스타일 정의
+const Container = styled.div`...`;
+const Title = styled.h2`...`;
+
+const MyComponent: React.FC = () => (
+  <Container>
+    <Title>제목</Title>
+  </Container>
+);
+```
+
+2. **Props 타입 명시**
+```tsx
+interface ButtonProps {
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+}
+```
+
+3. **테마 타입 활용**
+```tsx
+import { DefaultTheme } from 'styled-components';
+
+const getColor = (theme: DefaultTheme) => theme.colors.primary;
+```
+
+### 금지 사항 체크리스트
+
+- [ ] `style={{}}` 인라인 스타일 사용
+- [ ] 색상 하드코딩 (`#333`, `rgb(...)`)
+- [ ] 크기 하드코딩 (`12px`, `1rem`)
+- [ ] Elementor 클래스명 사용 (`elementor-*`)
+- [ ] `any` 타입 사용
+- [ ] 공통 컴포넌트 중복 구현
+
+### 참고 문서
+
+- **상세 가이드**: `docs/refactoring-guide.md`
+- **테마 정의**: `client/src/styles/theme.ts`
+- **공통 컴포넌트**: `client/src/components/common/`
+
+---
+
+## 📚 문서 위치
+
+```
+docs/
+├── task.md            # 작업 진행 상황 (가장 자주 참조)
+├── history.md         # 모든 작업 이력 및 롤백 (클리어 후 필수) ⭐
+├── structure.md       # 프로젝트 구조 (파일 위치)
+├── conventions.md     # 코딩 규칙 (상세)
+├── decisions.md       # 기술 결정 기록
+├── troubleshooting.md # 문제 해결
+├── architecture.md    # 시스템 설계
+├── api.md            # API 명세
+├── setup.md          # 환경 설정
+├── refactoring-guide.md  # 🆕 리팩토링 가이드
+└── gcp-infrastructure.md # 🆕 GCP 인프라 계획
 ```
 
 ---

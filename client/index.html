@@ -5,7 +5,12 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forever Love</title>
+  <meta name="description" content="당신의 마지막 안부를 보관합니다, 친애" />
+  <meta name="keywords" content="친애, 디지털 추모, 마지막 안부, 영원히 사랑해" />
+  <meta property="og:title" content="친애 - 영원히 정말로 사랑해, 진짜" />
+  <meta property="og:description" content="당신의 마지막 안부를 보관합니다, 친애" />
+  <meta property="og:type" content="website" />
+  <title>친애 - 영원히 정말로 사랑해, 진짜</title>
 
   <!-- Original CSS Files -->
   <link rel='stylesheet' id='wp-block-library-css' href="/css/block-library-style.min.css" media='all' />
@@ -467,19 +472,14 @@
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 
-  <!-- Elementor JS -->
+  <!-- jQuery (레거시 호환성) -->
   <script src="/js/jquery-jquery.min.js" id="jquery-core-js"></script>
   <script src="/js/jquery-jquery-migrate.min.js" id="jquery-migrate-js"></script>
-  <script src="/js/hello-elementor-hello-frontend.js" id="hello-theme-frontend-js"></script>
-  <script src="/js/elementor-webpack.runtime.min.js" id="elementor-webpack-runtime-js"></script>
-  <script src="/js/elementor-frontend-modules.min.js" id="elementor-frontend-modules-js"></script>
-  <script src="/js/jquery-ui-core.min.js" id="jquery-ui-core-js"></script>
-  <script src="/js/elementor-frontend.min.js" id="elementor-frontend-js"></script>
-  <script src="/js/elementor-pro-webpack-pro.runtime.min.js" id="elementor-pro-webpack-runtime-js"></script>
-  <script src="/js/hooks.min.js" id="wp-hooks-js"></script>
-  <script src="/js/i18n.min.js" id="wp-i18n-js"></script>
-  <script src="/js/elementor-pro-frontend.min.js" id="elementor-pro-frontend-js"></script>
-  <script src="/js/elementor-pro-elements-handlers.min.js" id="pro-elements-handlers-js"></script>
+  <!--
+    Elementor JS 파일들은 WordPress 환경에서만 동작합니다.
+    React 앱에서는 CSS만 사용하고 JS는 로드하지 않습니다.
+    (elementorFrontendConfig, ElementorProFrontendConfig 에러 방지)
+  -->
 </body>
 
 </html>

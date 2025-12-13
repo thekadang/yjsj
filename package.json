@@ -1,7 +1,7 @@
 {
-  "name": "forever-love-project",
+  "name": "chinae-project",
   "version": "1.0.0",
-  "description": "Digital memorial service",
+  "description": "친애 - 당신의 마지막 안부를 보관합니다",
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "fluent-ffmpeg": "^2.1.3",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/fluent-ffmpeg": "^2.1.28",
     "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.10.0",

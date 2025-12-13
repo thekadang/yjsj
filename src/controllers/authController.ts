@@ -24,9 +24,10 @@ export const register = async (req: Request, res: Response) => {
         );
 
         res.status(201).json({ success: true, user: result.rows[0] });
-    } catch (error: any) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
+    } catch (error) {
+        console.error('Registration error:', error);
+        const message = error instanceof Error ? error.message : 'Server error';
+        res.status(500).json({ error: message });
     }
 };
 
@@ -59,14 +60,15 @@ export const login = async (req: Request, res: Response) => {
         jwt.sign(
             payload,
             process.env.JWT_SECRET || 'secret',
-            { expiresIn: '1h' },
+            { expiresIn: '7d' },
             (err, token) => {
                 if (err) throw err;
                 res.json({ success: true, token, user: { id: user.id, name: user.name, username: user.username, birthdate: user.birthdate } });
             }
         );
-    } catch (error: any) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
+    } catch (error) {
+        console.error('Login error:', error);
+        const message = error instanceof Error ? error.message : 'Server error';
+        res.status(500).json({ error: message });
     }
 };
