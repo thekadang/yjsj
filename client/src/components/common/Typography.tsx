@@ -84,10 +84,10 @@ export const Strong = styled.strong`
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
 `;
 
-// 링크 텍스트
-export const Link = styled.a<{ underline?: boolean }>`
+// 링크 텍스트 ($underline: transient prop으로 DOM 전달 방지)
+export const Link = styled.a<{ $underline?: boolean }>`
   color: ${({ theme }) => theme.colors.primary};
-  text-decoration: ${({ underline }) => (underline ? 'underline' : 'none')};
+  text-decoration: ${({ $underline }) => ($underline ? 'underline' : 'none')};
   cursor: pointer;
   transition: color ${({ theme }) => theme.transitions.fast};
 

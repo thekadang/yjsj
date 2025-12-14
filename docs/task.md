@@ -343,9 +343,53 @@
 
 ---
 
-## 🎉 프로젝트 완료
+## 6단계: 소셜 로그인 연동 🔄 진행 중
 
-모든 구현 단계가 완료되었습니다.
+> **상태**: 카카오 로그인 완료, 구글/네이버 대기
+> **우선순위**: 배포 전 필수
+
+### 구현 대상
+- [x] **카카오 로그인** (Kakao OAuth) ✅ 완료
+    - [x] 카카오 개발자 앱 등록
+    - [x] REST API 키 발급
+    - [x] 백엔드 OAuth 콜백 구현 (`kakaoAuthController.ts`)
+    - [x] 프론트엔드 연동 (`KakaoCallback.tsx`, `kakaoAuthService.ts`)
+    - [x] DB 스키마 수정 (provider, provider_id 필드)
+    - [x] 실제 테스트 및 검증 ✅ (2025-12-14)
+    - [x] React Strict Mode 중복 실행 문제 수정 ✅ (2025-12-14)
+- [ ] **구글 로그인** (Google OAuth)
+    - [ ] Google Cloud Console 앱 등록
+    - [ ] OAuth 2.0 클라이언트 ID 발급
+    - [ ] 백엔드 OAuth 콜백 구현
+    - [ ] 프론트엔드 연동
+- [ ] **네이버 로그인** (Naver OAuth)
+    - [ ] 네이버 개발자센터 앱 등록
+    - [ ] Client ID/Secret 발급
+    - [ ] 백엔드 OAuth 콜백 구현
+    - [ ] 프론트엔드 연동
+
+### 카카오 로그인 구현 상세
+| 파일 | 설명 |
+|------|------|
+| `src/controllers/kakaoAuthController.ts` | 카카오 OAuth 백엔드 컨트롤러 |
+| `src/routes/authRoutes.ts` | 카카오 라우트 추가 |
+| `database/migrations/add_social_login_fields.sql` | DB 마이그레이션 |
+| `client/src/services/kakaoAuthService.ts` | 프론트엔드 API 서비스 |
+| `client/src/pages/KakaoCallback.tsx` | 카카오 콜백 페이지 |
+| `client/src/components/modals/LoginModal.tsx` | 카카오 버튼 연결 |
+| `client/src/components/modals/SignUpModal.tsx` | 카카오 버튼 연결 |
+
+### 참고 문서
+- 카카오: https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api
+- 구글: https://developers.google.com/identity/protocols/oauth2
+- 네이버: https://developers.naver.com/docs/login/overview/
+- **구현 매뉴얼**: `docs/kakao-login-guide.md`
+
+---
+
+## 🎉 핵심 기능 완료
+
+모든 핵심 구현 단계가 완료되었습니다.
 
 ### 완료된 기능 요약
 | 기능 | 상태 |
@@ -358,4 +402,6 @@
 | 브랜드 적용 (친애) | ✅ |
 | 마이스페이스 모달 Elementor 디자인 통합 | ✅ |
 | 오디오 압축 및 다운로드 (Opus/MP3) | ✅ |
-| 배포 준비 완료 | ✅ |
+| 카카오 로그인 | ✅ |
+| 구글/네이버 로그인 | ⏳ 대기 |
+| 배포 (GCS 연동) | ⏳ 대기 |

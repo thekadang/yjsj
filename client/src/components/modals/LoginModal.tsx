@@ -16,6 +16,7 @@ import {
   GoogleIcon,
 } from '../common';
 import { useAuth } from '../../contexts/AuthContext';
+import { kakaoAuthService } from '../../services/kakaoAuthService';
 import type { User } from '../../types';
 
 // Props 인터페이스
@@ -106,9 +107,30 @@ const LoginModal: React.FC<LoginModalProps> = ({
     }
   };
 
-  // 소셜 로그인 핸들러
-  const handleSocialLogin = (provider: string) => {
-    alert(`${provider} 로그인 준비 중입니다.`);
+  // 카카오 로그인 핸들러
+  const handleKakaoLogin = async () => {
+    try {
+      setIsLoading(true);
+      const response = await kakaoAuthService.getAuthUrl();
+
+      if (response.success && response.data?.url) {
+        // 카카오 인증 페이지로 리다이렉트
+        window.location.href = response.data.url;
+      } else {
+        console.error('Failed to get Kakao auth URL');
+        setError('카카오 로그인을 시작할 수 없습니다.');
+      }
+    } catch (err) {
+      console.error('Kakao login error:', err);
+      setError('카카오 로그인 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 구글 로그인 핸들러 (추후 구현)
+  const handleGoogleLogin = () => {
+    alert('구글 로그인 준비 중입니다.');
   };
 
   // 회원가입 클릭 핸들러
@@ -171,8 +193,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
           variant="kakao"
           size="lg"
           fullWidth
-          onClick={() => handleSocialLogin('카카오')}
+          onClick={handleKakaoLogin}
           leftIcon={<KakaoIcon />}
+          disabled={isLoading}
         >
           카카오 로그인
         </Button>
@@ -182,7 +205,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
           variant="google"
           size="lg"
           fullWidth
-          onClick={() => handleSocialLogin('구글')}
+          onClick={handleGoogleLogin}
           leftIcon={<GoogleIcon />}
         >
           구글 로그인
@@ -191,7 +214,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
       <FooterText>
         계정이 없으신가요?{' '}
-        <Link onClick={handleSignUpClick} underline>
+        <Link onClick={handleSignUpClick} $underline>
           회원가입
         </Link>
       </FooterText>

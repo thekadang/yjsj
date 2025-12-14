@@ -50,7 +50,14 @@
       "Bash(npm run lint:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(taskkill /F /PID 17792)",
+      "Bash(cmd.exe /c \"taskkill /F /PID 17792\")",
+      "Bash(powershell -Command \"Stop-Process -Id 17792 -Force\")",
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force\")",
+      "Bash(timeout /t 2 /nobreak)",
+      "Bash(cmd //c \"taskkill /F /PID 46792\")",
+      "Bash(cmd //c:*)"
     ]
   }
 }

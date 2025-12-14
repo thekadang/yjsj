@@ -2,7 +2,7 @@
 
 > 📜 **모든 작업의 이력을 기록합니다. 롤백 및 컨텍스트 복원에 사용됩니다.**
 
-**마지막 업데이트**: 2025-12-14 (History #26 - 코드 품질 검사 및 ESLint 이슈 수정)
+**마지막 업데이트**: 2025-12-14 (History #30 - 카카오 로그인 오류 수정)
 
 ---
 
@@ -1295,6 +1295,221 @@ useEffect(() => {
 
 ---
 
+## History #27 - Git 커밋/푸시 및 다음 작업 정의
+
+**날짜**: 2025-12-14
+**사용자 요청**: "커밋하고 푸시해", "디자인 브랜치를 메인에 머지해", "다음에 뭐 할 차례냐고 물으면 소셜 로그인 연동하면 된다고 알려줘"
+
+### 수행한 작업
+- [x] **디자이너 가이드 문서 생성**
+    - `docs/designer-guide.md` 생성
+    - 테마 시스템, 색상, 간격, 컴포넌트 사용법 안내
+- [x] **Git 커밋 및 푸시**
+    - design 브랜치에 전체 기능 커밋 (112개 파일)
+    - design → main 머지 완료
+    - 양쪽 브랜치 모두 원격 저장소에 푸시
+- [x] **다음 작업 단계 정의**
+    - 6단계: 소셜 로그인 연동 (카카오, 구글, 네이버)
+    - task.md 업데이트
+
+### 변경된 파일
+- 📄 [생성] docs/designer-guide.md
+- 📝 [수정] docs/task.md (6단계 소셜 로그인 추가)
+- 📝 [수정] docs/history.md (이 항목)
+
+### Git 상태
+```
+커밋: bdf1a90 - feat: 친애 프로젝트 전체 기능 구현
+브랜치: main, design 모두 동기화 완료
+원격: https://github.com/thekadang/yjsj.git
+```
+
+### 다음 작업 안내
+**6단계: 소셜 로그인 연동**
+- 카카오 로그인 (Kakao OAuth)
+- 구글 로그인 (Google OAuth)
+- 네이버 로그인 (Naver OAuth)
+
+현재 UI 버튼은 구현되어 있으나, 실제 OAuth 인증 로직은 미구현 상태.
+
+### 참조한 문서
+- docs/task.md
+
+### 중요도
+⭐ 마일스톤 - 핵심 기능 완료 및 다음 단계 정의
+
+---
+
+## History #28 - 카카오 로그인 구현 매뉴얼 작성
+
+**날짜**: 2025-12-14
+**사용자 요청**: "카카오로그인 구현 메뉴얼 만들어줘"
+
+### 수행한 작업
+- [x] **기존 인증 시스템 분석**
+    - [x] authController.ts 분석 (JWT 토큰 발급 로직)
+    - [x] authService.ts 분석 (프론트엔드 API 래퍼)
+- [x] **카카오 로그인 구현 매뉴얼 작성**
+    - [x] OAuth 2.0 인증 흐름 다이어그램
+    - [x] 카카오 개발자 앱 등록 가이드 (7단계)
+    - [x] 데이터베이스 스키마 수정 SQL (소셜 로그인 필드)
+    - [x] 백엔드 구현 코드 (kakaoAuthController.ts, 라우트)
+    - [x] 프론트엔드 구현 코드 (kakaoAuthService.ts, KakaoCallback.tsx)
+    - [x] 환경 변수 설정 가이드 (.env)
+    - [x] 테스트 체크리스트
+    - [x] 문제 해결 가이드 (일반적인 오류 및 해결법)
+
+### 변경된 파일
+- 📄 [생성] docs/kakao-login-guide.md (카카오 로그인 구현 매뉴얼)
+- 📝 [수정] docs/history.md (이 항목)
+
+### 매뉴얼 목차
+1. 개요 (OAuth 2.0 흐름)
+2. 사전 준비
+3. 카카오 개발자 앱 등록
+4. 데이터베이스 스키마 수정
+5. 백엔드 구현
+6. 프론트엔드 구현
+7. 환경 변수 설정
+8. 테스트
+9. 문제 해결
+
+### 주요 구현 항목
+| 항목 | 파일 | 설명 |
+|------|------|------|
+| 백엔드 컨트롤러 | kakaoAuthController.ts | 토큰 발급, 사용자 조회/생성 |
+| 백엔드 라우트 | authRoutes.ts | /kakao/url, /kakao/callback |
+| 프론트엔드 서비스 | kakaoAuthService.ts | API 래퍼 |
+| 콜백 페이지 | KakaoCallback.tsx | 인가 코드 처리 |
+| DB 마이그레이션 | add_social_login_fields.sql | provider, provider_id 필드 |
+
+### 참조한 문서
+- docs/task.md
+- src/controllers/authController.ts
+- client/src/services/authService.ts
+- 카카오 로그인 REST API 공식 문서
+
+### 중요도
+일반 작업 - 6단계 소셜 로그인 준비 문서
+
+---
+
+## History #29 - 카카오 로그인 구현 완료 ⭐
+
+**날짜**: 2025-12-14
+**사용자 요청**: "설정완료 했어. 우선 task.md랑 히스토리 업데이트먼저 하고 서버실행해서 테스트하자."
+
+### 수행한 작업
+- [x] **데이터베이스 스키마 수정**
+    - [x] `add_social_login_fields.sql` - users 테이블에 소셜 로그인 필드 추가
+    - [x] provider (VARCHAR 20), provider_id (VARCHAR 100), profile_image_url (TEXT)
+    - [x] password NULL 허용 (소셜 로그인 사용자)
+- [x] **백엔드 구현**
+    - [x] `kakaoAuthController.ts` - 카카오 OAuth 인증 컨트롤러
+    - [x] 인가 코드 → 액세스 토큰 교환
+    - [x] 카카오 사용자 정보 조회
+    - [x] 신규/기존 사용자 처리 로직
+    - [x] JWT 토큰 발급
+    - [x] `authRoutes.ts` - 카카오 라우트 추가 (/kakao/url, /kakao/callback)
+- [x] **프론트엔드 구현**
+    - [x] `kakaoAuthService.ts` - 카카오 API 서비스
+    - [x] `KakaoCallback.tsx` - OAuth 콜백 페이지
+    - [x] `LoginModal.tsx` - 카카오 버튼 연결
+    - [x] `SignUpModal.tsx` - 카카오 버튼 연결
+    - [x] `App.tsx` - /auth/kakao/callback 라우트 추가
+- [x] **환경 변수 설정**
+    - [x] KAKAO_REST_API_KEY
+    - [x] KAKAO_REDIRECT_URI
+- [x] **코드 검증**
+    - [x] TypeScript 타입 검사 통과 (npx tsc --noEmit)
+    - [x] ESLint 검사 통과 (npm run lint)
+
+### 변경된 파일
+- 📄 [생성] database/migrations/add_social_login_fields.sql
+- 📄 [생성] src/setup-social-login.ts (DB 마이그레이션 스크립트)
+- 📄 [생성] src/controllers/kakaoAuthController.ts
+- 📝 [수정] src/routes/authRoutes.ts (카카오 라우트 추가)
+- 📄 [생성] client/src/services/kakaoAuthService.ts
+- 📄 [생성] client/src/pages/KakaoCallback.tsx
+- 📝 [수정] client/src/components/modals/LoginModal.tsx (카카오 버튼 연결)
+- 📝 [수정] client/src/components/modals/SignUpModal.tsx (카카오 버튼 연결)
+- 📝 [수정] client/src/App.tsx (콜백 라우트 추가)
+- 📝 [수정] docs/task.md (6단계 카카오 로그인 완료)
+
+### OAuth 인증 흐름
+```
+1. 사용자가 "카카오로 시작하기" 클릭
+2. 프론트엔드 → GET /api/auth/kakao/url
+3. 백엔드 → 카카오 인증 URL 반환
+4. 사용자 → 카카오 로그인 페이지로 리다이렉트
+5. 카카오 → /auth/kakao/callback?code=xxx 로 리다이렉트
+6. 프론트엔드(KakaoCallback) → POST /api/auth/kakao/callback {code}
+7. 백엔드 → 카카오 API로 토큰 교환 → 사용자 정보 조회
+8. 백엔드 → DB에 사용자 조회/생성 → JWT 토큰 발급
+9. 프론트엔드 → 토큰 저장 후 홈으로 이동
+```
+
+### API 엔드포인트
+| Method | Endpoint | 설명 |
+|--------|----------|------|
+| GET | /api/auth/kakao/url | 카카오 인증 URL 반환 |
+| POST | /api/auth/kakao/callback | 인가 코드로 로그인 처리 |
+
+### 해결한 문제
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| pool import 오류 | Named export vs Default export | `import pool, { query }` 형식으로 수정 |
+| 카카오 URL 가져오기 실패 | API 응답 형식 불일치 | `{ url }` → `{ success: true, data: { url } }` 형식으로 수정 |
+
+### 참조한 문서
+- docs/kakao-login-guide.md (구현 매뉴얼)
+- docs/task.md
+
+### 중요도
+⭐ 마일스톤 - 카카오 소셜 로그인 구현 완료
+
+---
+
+## History #30 - 카카오 로그인 오류 수정
+
+**날짜**: 2025-12-14
+**사용자 요청**: "카카오 회원가입하는데 오류난다. 확인하고 해결해"
+
+### 수행한 작업
+- [x] **심층 분석 (--ultrathink 모드)**
+    - [x] 카카오 인증 관련 모든 파일 코드 분석
+    - [x] API 응답 형식 검증
+    - [x] AuthContext 함수 시그니처 검증
+- [x] **🔴 문제 1: 백엔드 응답 형식 불일치**
+    - [x] 원인: kakaoCallback이 `{ success, token, user }` 형태로 응답
+    - [x] 문제: 프론트엔드가 `{ success, data: { token, user } }` 형태 기대
+    - [x] 해결: 백엔드 응답을 `data`로 래핑
+- [x] **🔴 문제 2: AuthContext login 함수 시그니처 불일치**
+    - [x] 원인: `login(username, password)`는 이메일 로그인용
+    - [x] 문제: KakaoCallback에서 `login(user, token)` 호출 - 잘못된 사용
+    - [x] 해결: `socialLogin(user, token)` 함수 추가 및 사용
+
+### 변경된 파일
+- 📝 [수정] src/controllers/kakaoAuthController.ts (응답 형식 수정: data 래핑)
+- 📝 [수정] client/src/contexts/AuthContext.tsx (socialLogin 함수 추가)
+- 📝 [수정] client/src/pages/KakaoCallback.tsx (socialLogin 사용)
+
+### 발견된 문제 상세
+
+| 문제 | 위치 | 원인 | 해결 |
+|------|------|------|------|
+| 응답 형식 불일치 | kakaoAuthController.ts:195 | `{ success, token, user }` | `{ success, data: { token, user } }` |
+| 함수 시그니처 오류 | KakaoCallback.tsx:87 | `login(user, token)` 호출 | `socialLogin(user, token)` 사용 |
+
+### 참조한 문서
+- docs/kakao-login-guide.md
+- docs/task.md
+
+### 중요도
+⭐ 버그 수정 - 카카오 소셜 로그인 오류 해결
+
+---
+
 ## 📊 마일스톤 요약
 
 | # | 날짜 | 마일스톤 | 상태 |
@@ -1319,6 +1534,11 @@ useEffect(() => {
 | 18 | 2025-12-13 | 일기 공개 범위 선택 기능 | ✅ 완료 |
 | 19 | 2025-12-13 | 일기와 남기는 말 기능 분리 | ✅ 완료 |
 | 20 | 2025-12-14 | UI/UX 개선 및 인증 강화 | ✅ 완료 |
+| 21 | 2025-12-14 | 핵심 기능 완료 및 다음 단계 정의 | ✅ 완료 |
+| 22 | 2025-12-14 | 카카오 소셜 로그인 구현 | ✅ 완료 |
+| 23 | 2025-12-14 | 카카오 로그인 오류 수정 | ✅ 완료 |
+| 24 | 2025-12-14 | React Strict Mode 호환성 확보 | ✅ 완료 |
+| 25 | 2025-12-14 | styled-components 경고 수정 | ✅ 완료 |
 
 ---
 
@@ -1342,3 +1562,90 @@ git checkout HEAD~1 -- path/to/file
 # 전체 롤백
 git revert <commit-hash>
 ```
+
+---
+
+## History #31 - React Strict Mode 중복 실행 문제 수정
+
+**날짜**: 2025-12-14
+**사용자 요청**: "회원가입 성공은 했는데 중간에 에러가 잡혔어... 400 (Bad Request)"
+
+### 문제 분석
+- 카카오 로그인 시 콘솔에 400 에러 발생
+- 백엔드 로그 분석 결과 "카카오 토큰 요청 중..." 메시지가 2번 출력됨
+- **원인**: React Strict Mode에서 useEffect가 개발 모드에서 2번 실행됨
+- 카카오 인가 코드는 1회용이므로 두 번째 요청에서 `invalid_grant` (KOE320) 에러 발생
+
+### 수행한 작업
+- [x] 백엔드 로그 분석으로 중복 실행 확인
+- [x] React Strict Mode 동작 원리 파악
+- [x] `useRef`를 사용한 중복 실행 방지 로직 구현
+- [x] TypeScript/ESLint 검증 통과
+
+### 변경된 파일
+- 📝 [수정] `client/src/pages/KakaoCallback.tsx`
+  - `isProcessingRef = useRef(false)` 추가
+  - useEffect 시작 시 중복 체크 로직 추가
+
+### 수정 코드
+```typescript
+const isProcessingRef = useRef(false);
+
+useEffect(() => {
+  const processKakaoLogin = async () => {
+    if (isProcessingRef.current) {
+      console.log('⏭️ 이미 카카오 로그인 처리 중, 중복 실행 방지');
+      return;
+    }
+    isProcessingRef.current = true;
+    // ... 로그인 처리
+  };
+  processKakaoLogin();
+}, [...]);
+```
+
+### 참조한 문서
+- docs/task.md
+
+### 중요도
+⭐ 버그 수정 - React Strict Mode 호환성 확보
+
+---
+
+## History #32 - styled-components transient props 경고 수정
+
+**날짜**: 2025-12-14
+**사용자 요청**: "로그인 버튼 누를 때 underline 에러나는건 왜그런거야?"
+
+### 문제 분석
+- 콘솔 경고: `Received 'true' for a non-boolean attribute 'underline'`
+- **원인**: styled-components에서 커스텀 prop `underline`이 DOM으로 전달됨
+- HTML `<a>` 태그는 `underline` 속성을 인식하지 못해 경고 발생
+
+### 수행한 작업
+- [x] Typography.tsx의 Link 컴포넌트 분석
+- [x] Transient props (`$` 접두사) 패턴 적용
+- [x] 사용처 2곳 모두 수정
+- [x] TypeScript/ESLint 검증 통과
+
+### 변경된 파일
+| 파일 | 변경 내용 |
+|------|----------|
+| 📝 `client/src/components/common/Typography.tsx` | `underline` → `$underline` prop 정의 |
+| 📝 `client/src/components/modals/LoginModal.tsx` | `underline` → `$underline` 사용 |
+| 📝 `client/src/components/modals/SignUpModal.tsx` | `underline` → `$underline` 사용 |
+
+### 수정 코드
+```typescript
+// Before (DOM으로 전달됨 → 경고)
+export const Link = styled.a<{ underline?: boolean }>`
+
+// After ($접두사로 DOM 전달 방지)
+export const Link = styled.a<{ $underline?: boolean }>`
+```
+
+### 참조한 문서
+- styled-components 공식 문서 (Transient Props)
+
+### 중요도
+일반 - 콘솔 경고 제거

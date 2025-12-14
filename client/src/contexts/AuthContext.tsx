@@ -61,6 +61,7 @@ interface AuthContextValue {
 
   // 액션
   login: (username: string, password: string) => Promise<LoginResponse>;
+  socialLogin: (user: User, token: string) => void;  // 소셜 로그인용 함수 추가
   register: (data: RegisterData) => Promise<RegisterResponse>;
   logout: () => void;
   updateProfile: (userId: number, data: ProfileData) => Promise<ProfileUpdateResponse>;
@@ -211,6 +212,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
   }, []);
 
+  // 소셜 로그인 (카카오, 구글 등)
+  const socialLogin = useCallback((userData: User, token: string) => {
+    setUser(userData);
+    setError(null);
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userData));
+    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+  }, []);
+
   // 프로필 업데이트
   const updateProfile = useCallback(async (
     userId: number,
@@ -273,6 +282,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     error,
     login,
+    socialLogin,
     register,
     logout,
     updateProfile,

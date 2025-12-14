@@ -15,6 +15,7 @@ import {
   KakaoIcon,
   GoogleIcon,
 } from '../common';
+import { kakaoAuthService } from '../../services/kakaoAuthService';
 
 // Props 인터페이스
 interface SignUpModalProps {
@@ -135,9 +136,30 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onLoginClick }) => {
     }
   };
 
-  // 소셜 로그인 핸들러
-  const handleSocialSignUp = (provider: string) => {
-    alert(`${provider} 로그인 준비 중입니다.`);
+  // 카카오 로그인 핸들러
+  const handleKakaoSignUp = async () => {
+    try {
+      setIsLoading(true);
+      const response = await kakaoAuthService.getAuthUrl();
+
+      if (response.success && response.data?.url) {
+        // 카카오 인증 페이지로 리다이렉트
+        window.location.href = response.data.url;
+      } else {
+        console.error('Failed to get Kakao auth URL');
+        setError('카카오 로그인을 시작할 수 없습니다.');
+      }
+    } catch (err) {
+      console.error('Kakao login error:', err);
+      setError('카카오 로그인 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 구글 로그인 핸들러 (추후 구현)
+  const handleGoogleSignUp = () => {
+    alert('구글 로그인 준비 중입니다.');
   };
 
   return (
@@ -152,8 +174,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onLoginClick }) => {
             variant="kakao"
             size="lg"
             fullWidth
-            onClick={() => handleSocialSignUp('카카오')}
+            onClick={handleKakaoSignUp}
             leftIcon={<KakaoIcon />}
+            disabled={isLoading}
           >
             카카오로 시작하기
           </Button>
@@ -163,7 +186,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onLoginClick }) => {
             variant="google"
             size="lg"
             fullWidth
-            onClick={() => handleSocialSignUp('구글')}
+            onClick={handleGoogleSignUp}
             leftIcon={<GoogleIcon />}
           >
             구글로 시작하기
@@ -250,7 +273,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onLoginClick }) => {
 
         <FooterText>
           이미 계정이 있으신가요?{' '}
-          <Link onClick={onLoginClick} underline>
+          <Link onClick={onLoginClick} $underline>
             로그인
           </Link>
         </FooterText>
