@@ -164,7 +164,7 @@ export const FriendList: React.FC<FriendListProps> = ({ onFriendDeleted }) => {
   if (friends.length === 0) {
     return (
       <EmptyState>
-        <EmptyIcon>👥</EmptyIcon>
+        <EmptyIcon>-</EmptyIcon>
         <EmptyText>아직 친구가 없습니다.</EmptyText>
         <EmptyText style={{ fontSize: '14px', marginTop: '8px' }}>
           상단 검색에서 친구를 찾아 추가해보세요!

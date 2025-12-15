@@ -340,7 +340,7 @@ const MySpace: React.FC = () => {
         <Header variant="authenticated" />
         <SpaceContainer>
           <ErrorContainer>
-            <span>⚠️</span>
+            <span>!</span>
             <span>{error}</span>
           </ErrorContainer>
         </SpaceContainer>

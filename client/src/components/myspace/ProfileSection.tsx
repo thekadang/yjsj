@@ -170,7 +170,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
           />
         ) : (
           <PlaceholderImage>
-            <span>📷</span>
+            <span></span>
             <span>프로필 사진</span>
           </PlaceholderImage>
         )}

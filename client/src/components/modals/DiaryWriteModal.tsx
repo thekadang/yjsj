@@ -104,29 +104,29 @@ const VisibilityCheckbox = styled.label<{ $checked: boolean; $type: string }>`
   ${({ $checked, $type, theme }) => {
     const colors: Record<string, { bg: string; border: string; text: string }> = {
       '비공개': {
-        bg: $checked ? '#6c757d20' : 'transparent',
-        border: $checked ? '#6c757d' : theme.colors.border,
-        text: $checked ? '#6c757d' : theme.colors.text.secondary,
+        bg: $checked ? '#78716c20' : 'transparent',
+        border: $checked ? '#78716c' : theme.colors.border,
+        text: $checked ? '#78716c' : theme.colors.text.secondary,
       },
       '가족': {
-        bg: $checked ? theme.colors.error + '20' : 'transparent',
-        border: $checked ? theme.colors.error : theme.colors.border,
-        text: $checked ? theme.colors.error : theme.colors.text.secondary,
+        bg: $checked ? '#8a654d20' : 'transparent',
+        border: $checked ? '#8a654d' : theme.colors.border,
+        text: $checked ? '#8a654d' : theme.colors.text.secondary,
       },
       '찐친': {
-        bg: $checked ? theme.colors.kakao + '40' : 'transparent',
-        border: $checked ? '#B8860B' : theme.colors.border,
-        text: $checked ? '#B8860B' : theme.colors.text.secondary,
+        bg: $checked ? '#b8906d40' : 'transparent',
+        border: $checked ? '#b8906d' : theme.colors.border,
+        text: $checked ? '#b8906d' : theme.colors.text.secondary,
       },
       '친구': {
-        bg: $checked ? theme.colors.primary + '20' : 'transparent',
-        border: $checked ? theme.colors.primary : theme.colors.border,
-        text: $checked ? theme.colors.primary : theme.colors.text.secondary,
+        bg: $checked ? '#6d7f6d20' : 'transparent',
+        border: $checked ? '#6d7f6d' : theme.colors.border,
+        text: $checked ? '#6d7f6d' : theme.colors.text.secondary,
       },
       '전체공개': {
-        bg: $checked ? '#28a74520' : 'transparent',
-        border: $checked ? '#28a745' : theme.colors.border,
-        text: $checked ? '#28a745' : theme.colors.text.secondary,
+        bg: $checked ? '#a8a29e20' : 'transparent',
+        border: $checked ? '#a8a29e' : theme.colors.border,
+        text: $checked ? '#a8a29e' : theme.colors.text.secondary,
       },
     };
     const style = colors[$type] || colors['친구'];
@@ -444,22 +444,22 @@ const DiaryWriteModal: React.FC<DiaryWriteModalProps> = ({
       return '공개 범위를 선택해주세요.';
     }
     if (selectedVisibility.includes('private')) {
-      return '🔒 이 일기는 나만 볼 수 있습니다.';
+      return '이 일기는 나만 볼 수 있습니다.';
     }
     if (selectedVisibility.includes('public')) {
-      return '🌐 이 일기는 모든 사람이 볼 수 있습니다.';
+      return '이 일기는 모든 사람이 볼 수 있습니다.';
     }
     const selected = VISIBILITY_OPTIONS
       .filter(opt => selectedVisibility.includes(opt.id))
       .map(opt => opt.display_name);
-    return `👥 ${selected.join(', ')}으로 등록된 친구만 볼 수 있습니다.`;
+    return `${selected.join(', ')}으로 등록된 친구만 볼 수 있습니다.`;
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="📝 일기 쓰기"
+      title="일기 쓰기"
       size="lg"
       closeOnOverlayClick={!loading}
       closeOnEsc={!loading}
@@ -509,7 +509,7 @@ const DiaryWriteModal: React.FC<DiaryWriteModalProps> = ({
 
         {/* 음성 녹음 */}
         <Section>
-          <SectionLabel>🎙️ 음성 메시지 (선택)</SectionLabel>
+          <SectionLabel>음성 메시지 (선택)</SectionLabel>
           <HelperText>목소리로 오늘의 감정을 담아보세요.</HelperText>
           <AudioSection>
             {!audioUrl ? (
@@ -520,7 +520,7 @@ const DiaryWriteModal: React.FC<DiaryWriteModalProps> = ({
                   disabled={loading}
                   type="button"
                 >
-                  {isRecording ? '⏹️' : '🎤'}
+                  {isRecording ? '■' : '●'}
                 </RecordButton>
                 <div>
                   {isRecording ? (
@@ -537,7 +537,7 @@ const DiaryWriteModal: React.FC<DiaryWriteModalProps> = ({
               <AudioPreview>
                 <AudioPlayer src={audioUrl} controls />
                 <DeleteAudioButton onClick={deleteAudio} type="button">
-                  🗑️
+                  ×
                 </DeleteAudioButton>
               </AudioPreview>
             )}

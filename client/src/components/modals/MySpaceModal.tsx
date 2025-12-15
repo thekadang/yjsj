@@ -1,7 +1,7 @@
 /**
- * 마이스페이스 모달
+ * 마이스페이스 모달 - 올드머니 디자인
  * Home에서 "내 공간" 클릭 시 열리는 모달
- * 기존 Elementor 디자인을 유지하면서 MySpace 기능 통합
+ * designSystem.ts 기반 세련된 웜톤 디자인
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -30,18 +30,27 @@ const ModalInner = styled.div`
   margin: -20px;
 `;
 
-// Elementor 스타일 보강용 (기본 Elementor CSS가 로드되어 있음)
+// 올드머니 스타일
 const ElementorStyles = styled.div`
+  font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
+  color: #292524;
   /* 프로필 이미지 영역 - 영정사진 표준 비율 11:14 */
   .profile-image-container {
     width: 200px;
-    height: 255px; /* 11:14 비율 (200 * 14/11 ≈ 255) */
+    height: 255px;
     margin: 0 auto 15px;
-    border-radius: 10px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 2px solid #ddd;
+    border: 3px solid #ebe0d1;
     cursor: pointer;
     position: relative;
+    box-shadow: 0 8px 24px rgba(41, 37, 36, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #b8906d;
+      box-shadow: 0 12px 32px rgba(184, 144, 109, 0.2);
+    }
 
     img {
       width: 100%;
@@ -56,8 +65,8 @@ const ElementorStyles = styled.div`
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #f5f5f5;
-      color: #888;
+      background: #f8f5ef;
+      color: #a8a29e;
 
       .icon {
         font-size: 48px;
@@ -72,36 +81,45 @@ const ElementorStyles = styled.div`
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(41, 37, 36, 0.6);
+      backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: #fefdfb;
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
   }
 
   /* 탭 네비게이션 */
   .tab-navigation {
     display: flex;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 15px;
+    border-bottom: 1px solid #d6d3d1;
+    margin-bottom: 20px;
+    gap: 8px;
 
     .tab {
-      padding: 10px 20px;
+      padding: 12px 24px;
       cursor: pointer;
       border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      transition: all 0.3s;
+      margin-bottom: -1px;
+      transition: all 0.3s ease;
+      color: #78716c;
+      font-weight: 500;
+      letter-spacing: 0.3px;
 
       &:hover {
-        color: #667eea;
+        color: #b8906d;
+        background: rgba(184, 144, 109, 0.05);
+        border-radius: 12px 12px 0 0;
       }
 
       &.active {
-        color: #667eea;
-        border-bottom-color: #667eea;
+        color: #b8906d;
+        border-bottom-color: #b8906d;
         font-weight: 600;
       }
     }
@@ -110,40 +128,45 @@ const ElementorStyles = styled.div`
   /* 일기 목록 */
   .diary-list {
     .diary-item {
-      padding: 15px;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      padding: 20px;
+      border: 1px solid #e7e5e4;
+      border-radius: 16px;
+      margin-bottom: 12px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      background: #fdfcf9;
 
       &:hover {
-        border-color: #667eea;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-color: #b8906d;
+        box-shadow: 0 4px 12px rgba(184, 144, 109, 0.15);
+        transform: translateY(-2px);
       }
 
       .diary-date {
-        font-size: 12px;
-        color: #888;
-        margin-bottom: 5px;
+        font-size: 13px;
+        color: #a8a29e;
+        margin-bottom: 8px;
+        font-weight: 500;
       }
 
       .diary-content {
-        color: #333;
-        line-height: 1.5;
+        color: #292524;
+        line-height: 1.6;
+        font-size: 15px;
       }
 
       .diary-visibility {
         display: flex;
-        gap: 5px;
-        margin-top: 10px;
+        gap: 6px;
+        margin-top: 12px;
 
         .badge {
-          font-size: 11px;
-          padding: 2px 8px;
-          border-radius: 10px;
-          background: #f0f0f0;
-          color: #666;
+          font-size: 12px;
+          padding: 4px 12px;
+          border-radius: 12px;
+          background: #f5f0e8;
+          color: #8a654d;
+          font-weight: 500;
         }
       }
     }
@@ -151,7 +174,9 @@ const ElementorStyles = styled.div`
     .empty-message {
       text-align: center;
       padding: 40px;
-      color: #888;
+      color: #a8a29e;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
     /* 페이지네이션 */
@@ -159,62 +184,72 @@ const ElementorStyles = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 15px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
+      gap: 16px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e7e5e4;
 
       .page-btn {
-        padding: 6px 12px;
-        border: 1px solid #667eea;
-        border-radius: 15px;
-        background: white;
-        color: #667eea;
+        padding: 8px 16px;
+        border: 1px solid #d6d3d1;
+        border-radius: 12px;
+        background: #fdfcf9;
+        color: #b8906d;
         cursor: pointer;
-        font-size: 13px;
-        transition: all 0.2s;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
 
         &:hover:not(:disabled) {
-          background: #667eea;
-          color: white;
+          background: #b8906d;
+          color: #fefdfb;
+          border-color: #b8906d;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(184, 144, 109, 0.2);
         }
 
         &:disabled {
-          border-color: #ddd;
-          color: #ccc;
+          border-color: #e7e5e4;
+          color: #d6d3d1;
           cursor: not-allowed;
+          background: #f8f5ef;
         }
       }
 
       .page-info {
         font-size: 14px;
-        color: #666;
-        font-weight: 500;
+        color: #57534e;
+        font-weight: 600;
       }
     }
   }
 
   /* 버튼 스타일 */
   .action-button {
-    padding: 8px 16px;
-    border: 1px solid #667eea;
-    border-radius: 20px;
-    background: white;
-    color: #667eea;
+    padding: 10px 20px;
+    border: 1px solid #b8906d;
+    border-radius: 12px;
+    background: #fdfcf9;
+    color: #b8906d;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.3px;
 
     &:hover {
-      background: #667eea;
-      color: white;
+      background: #b8906d;
+      color: #fefdfb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(184, 144, 109, 0.2);
     }
 
     &.primary {
-      background: #667eea;
-      color: white;
+      background: #b8906d;
+      color: #fefdfb;
 
       &:hover {
-        background: #5a6fd6;
+        background: #a67c5d;
+        box-shadow: 0 6px 16px rgba(184, 144, 109, 0.3);
       }
     }
   }
@@ -223,26 +258,32 @@ const ElementorStyles = styled.div`
   .epitaph-section {
     width: 200px;
     margin: 15px auto 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    padding: 16px;
+    background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e8 100%);
+    border: 1px solid #ebe0d1;
+    border-radius: 16px;
     box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(41, 37, 36, 0.05);
 
     .epitaph-label {
       font-weight: 600;
       margin-bottom: 10px;
-      color: #333;
+      color: #292524;
+      font-size: 14px;
+      letter-spacing: 0.3px;
     }
 
     .epitaph-content {
-      color: #666;
-      line-height: 1.6;
+      color: #57534e;
+      line-height: 1.7;
       min-height: 60px;
+      font-size: 14px;
     }
 
     .epitaph-placeholder {
-      color: #999;
+      color: #a8a29e;
       font-style: italic;
+      font-size: 13px;
     }
   }
 
@@ -252,24 +293,29 @@ const ElementorStyles = styled.div`
     margin: 15px auto 0;
     display: flex;
     justify-content: space-around;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    padding: 16px;
+    background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e8 100%);
+    border: 1px solid #ebe0d1;
+    border-radius: 16px;
     box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(41, 37, 36, 0.05);
 
     .stat-item {
       text-align: center;
 
       .stat-count {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 700;
-        color: #667eea;
+        color: #b8906d;
+        line-height: 1.2;
       }
 
       .stat-label {
         font-size: 12px;
-        color: #888;
-        margin-top: 5px;
+        color: #78716c;
+        margin-top: 6px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
       }
     }
   }
@@ -287,6 +333,8 @@ const ElementorStyles = styled.div`
       h4 {
         margin: 0;
         font-size: 16px;
+        color: #292524;
+        font-weight: 600;
       }
 
       .upload-buttons {
@@ -298,13 +346,21 @@ const ElementorStyles = styled.div`
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 12px;
 
       .media-item {
         aspect-ratio: 1;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: hidden;
         cursor: pointer;
+        border: 2px solid #ebe0d1;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: #b8906d;
+          transform: scale(1.05);
+          box-shadow: 0 4px 12px rgba(184, 144, 109, 0.2);
+        }
 
         img {
           width: 100%;
@@ -316,35 +372,63 @@ const ElementorStyles = styled.div`
 
     .gallery-empty {
       text-align: center;
-      padding: 30px;
-      color: #888;
-      border: 2px dashed #ddd;
-      border-radius: 10px;
+      padding: 40px;
+      color: #a8a29e;
+      border: 2px dashed #d6d3d1;
+      border-radius: 16px;
+      background: #fdfcf9;
+      font-size: 14px;
     }
   }
 
   /* 닫기 버튼 */
   .close-button {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 32px;
-    height: 32px;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
     border: none;
-    background: #ff5f56;
+    background: #a8a29e;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 18px;
-    transition: transform 0.2s;
+    color: #fefdfb;
+    font-size: 20px;
+    transition: all 0.3s ease;
     z-index: 10;
+    box-shadow: 0 2px 8px rgba(41, 37, 36, 0.15);
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(90deg);
+      background: #78716c;
+      box-shadow: 0 4px 12px rgba(41, 37, 36, 0.25);
     }
+  }
+
+  /* 타이틀 중앙 정렬 */
+  .elementor-element-b741582 {
+    text-align: center;
+  }
+
+  /* 프로필 이미지 너비 100% */
+  .profile-image-container {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  /* 남기는 말 너비 100% */
+  .epitaph-section {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* 친구 통계 너비 100% */
+  .friend-stats {
+    width: 100%;
+    max-width: none;
   }
 `;
 
@@ -495,7 +579,7 @@ const MySpaceModal: React.FC<MySpaceModalProps> = ({ isOpen, onClose }) => {
         return (
           <div className="diary-section">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-              <h4 style={{ margin: 0 }}>📖 일기장</h4>
+              <h4 style={{ margin: 0 }}>일기장</h4>
               <button className="action-button primary" onClick={handleCreateDiary}>
                 일기 쓰기
               </button>
@@ -557,7 +641,7 @@ const MySpaceModal: React.FC<MySpaceModalProps> = ({ isOpen, onClose }) => {
             {/* 미디어 갤러리 */}
             <div className="media-gallery">
               <div className="gallery-header">
-                <h4>🖼️ 미디어 갤러리</h4>
+                <h4>미디어 갤러리</h4>
               </div>
               {mediaGallery.length > 0 ? (
                 <div className="gallery-grid">
@@ -591,11 +675,11 @@ const MySpaceModal: React.FC<MySpaceModalProps> = ({ isOpen, onClose }) => {
           <div>
             <FriendSearch />
             <div style={{ marginTop: '20px' }}>
-              <h4 style={{ marginBottom: '10px' }}>받은 신청</h4>
+              <h4 style={{ marginBottom: '10px', textAlign: 'left' }}>받은 신청</h4>
               <FriendRequestList type="received" />
             </div>
             <div style={{ marginTop: '20px' }}>
-              <h4 style={{ marginBottom: '10px' }}>보낸 신청</h4>
+              <h4 style={{ marginBottom: '10px', textAlign: 'left' }}>보낸 신청</h4>
               <FriendRequestList type="sent" />
             </div>
           </div>
@@ -621,7 +705,7 @@ const MySpaceModal: React.FC<MySpaceModalProps> = ({ isOpen, onClose }) => {
     return (
       <Modal isOpen={isOpen} onClose={onClose} size="full" showCloseButton={false}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px', color: 'red' }}>
-          ⚠️ {error}
+          {error}
         </div>
       </Modal>
     );
@@ -655,11 +739,10 @@ const MySpaceModal: React.FC<MySpaceModalProps> = ({ isOpen, onClose }) => {
                         {profileImage ? (
                           <>
                             <img src={profileImage.thumbnailUrl || profileImage.url} alt="프로필" />
-                            <div className="overlay">사진 변경</div>
                           </>
                         ) : (
                           <div className="placeholder">
-                            <span className="icon">📷</span>
+                            <span className="icon"></span>
                             <span>프로필 사진</span>
                           </div>
                         )}
@@ -672,9 +755,18 @@ const MySpaceModal: React.FC<MySpaceModalProps> = ({ isOpen, onClose }) => {
                       />
 
                       <div className="elementor-element elementor-element-01d3117 elementor-widget elementor-widget-text-editor">
-                        <p style={{ textAlign: 'center', cursor: 'pointer' }} onClick={handleImageClick}>
+                        <button 
+                          className="action-button" 
+                          onClick={handleImageClick}
+                          style={{ 
+                            width: '100%', 
+                            marginTop: '12px',
+                            padding: '10px 20px',
+                            fontSize: '14px'
+                          }}
+                        >
                           사진 변경
-                        </p>
+                        </button>
                       </div>
 
                       {/* 남기는 말 */}

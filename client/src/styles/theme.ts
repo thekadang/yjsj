@@ -4,69 +4,112 @@
  */
 
 export const theme = {
-  // 색상 팔레트
+  // 올드머니 웜톤 컬러 팔레트 (4단계)
   colors: {
-    // 기본 색상
-    primary: '#333333',
-    primaryHover: '#555555',
-    secondary: '#666666',
+    // 메인 컬러 - 캐멀/베이지 (따뜻하고 세련된)
+    main: {
+      50: '#faf8f5',
+      100: '#f5f0e8',
+      200: '#ebe0d1',
+      300: '#dcc9b0',
+      400: '#c9aa85',
+      500: '#b8906d',  // 메인 컬러
+      600: '#a67c5d',
+      700: '#8a654d',
+      800: '#715243',
+      900: '#5d4438',
+    },
+
+    // 서브 컬러 - 세이지 그린 (차분하고 우아한)
+    sub: {
+      50: '#f6f7f6',
+      100: '#e8ebe8',
+      200: '#d4dbd4',
+      300: '#b3c0b3',
+      400: '#8fa08f',
+      500: '#6d7f6d',  // 서브 컬러
+      600: '#5a6a5a',
+      700: '#4a564a',
+      800: '#3d473d',
+      900: '#333b33',
+    },
+
+    // 흑 - 부드러운 차콜 (순수한 검정이 아닌 따뜻한 느낌)
+    black: {
+      50: '#f5f5f4',
+      100: '#e7e5e4',
+      200: '#d6d3d1',
+      300: '#a8a29e',
+      400: '#78716c',
+      500: '#57534e',
+      600: '#44403c',
+      700: '#292524',  // 주로 사용할 검정
+      800: '#1c1917',
+      900: '#0f0e0d',
+    },
+
+    // 백 - 크림 화이트 (순백이 아닌 따뜻한 아이보리)
+    white: {
+      50: '#ffffff',
+      100: '#fefdfb',
+      200: '#fdfcf9',
+      300: '#fcfaf6',
+      400: '#faf7f2',
+      500: '#f8f5ef',  // 주로 사용할 배경색
+      600: '#f5f1e9',
+      700: '#f2ede3',
+      800: '#efe8dc',
+      900: '#ebe3d4',
+    },
+
+    // 시맨틱 컬러 (메인/서브 컬러 기반)
+    primary: '#b8906d',      // main.500
+    primaryHover: '#a67c5d', // main.600
+    secondary: '#6d7f6d',    // sub.500
+    secondaryHover: '#5a6a5a', // sub.600
 
     // 배경 색상
-    background: '#ffffff',
-    surface: '#f9f9f9',
-    surfaceHover: '#f0f0f0',
+    background: '#f8f5ef',   // white.500
+    surface: '#fdfcf9',      // white.200
+    surfaceHover: '#f5f1e9', // white.600
 
     // 테두리 및 구분선
-    border: '#dddddd',
-    borderLight: '#eeeeee',
-    divider: '#dddddd',
-
-    // 상태 색상
-    error: '#f44336',
-    errorLight: '#ffebee',
-    success: '#4caf50',
-    successLight: '#e8f5e9',
-    warning: '#ff9800',
-    warningLight: '#fff3e0',
-    info: '#2196f3',
-    infoLight: '#e3f2fd',
+    border: '#d6d3d1',       // black.200
+    borderLight: '#e7e5e4',  // black.100
+    divider: '#d6d3d1',      // black.200
 
     // 텍스트 색상
     text: {
-      primary: '#333333',
-      secondary: '#666666',
-      tertiary: '#999999',
-      muted: '#888888',
-      disabled: '#aaaaaa',
-      inverse: '#ffffff',
+      primary: '#292524',    // black.700
+      secondary: '#57534e',  // black.500
+      tertiary: '#78716c',   // black.400
+      muted: '#a8a29e',      // black.300
+      disabled: '#d6d3d1',   // black.200
+      inverse: '#fefdfb',    // white.100
     },
 
-    // 그레이 스케일
-    gray: {
-      50: '#fafafa',
-      100: '#f5f5f5',
-      200: '#eeeeee',
-      300: '#e0e0e0',
-      400: '#bdbdbd',
-      500: '#9e9e9e',
-      600: '#757575',
-      700: '#616161',
-      800: '#424242',
-      900: '#212121',
-    },
+    // 상태 색상 (웜톤 조정)
+    error: '#c2410c',        // 따뜻한 오렌지-레드
+    errorLight: '#fed7aa',
+    success: '#65a30d',      // 올리브 그린
+    successLight: '#d9f99d',
+    warning: '#d97706',      // 앰버
+    warningLight: '#fde68a',
+    info: '#0891b2',         // 시안
+    infoLight: '#a5f3fc',
 
-    // 소셜 로그인 색상
+    // 소셜 로그인 (유지)
     kakao: '#FEE500',
     kakaoText: '#000000',
     kakaoHover: '#e6cf00',
     google: '#ffffff',
     googleText: '#757575',
-    googleBorder: '#dddddd',
-    googleHover: '#f5f5f5',
+    googleBorder: '#d6d3d1',
+    googleHover: '#f5f1e9',
 
     // 오버레이
-    overlay: 'rgba(0, 0, 0, 0.5)',
-    overlayLight: 'rgba(0, 0, 0, 0.3)',
+    overlay: 'rgba(41, 37, 36, 0.5)',      // black.700 기반
+    overlayLight: 'rgba(87, 83, 78, 0.3)', // black.500 기반
   },
 
   // 간격 시스템 (4px 기반)
@@ -95,12 +138,13 @@ export const theme = {
   // 타이포그래피
   typography: {
     fontFamily: {
-      primary: "'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      primary: "'Pretendard Variable', 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      heading: "'Playfair Display', 'Georgia', serif",  // 우아한 세리프 (옵션)
       monospace: "'Fira Code', 'Monaco', monospace",
     },
     fontSize: {
-      xs: '0.75rem',     // 12px
-      sm: '0.875rem',    // 14px
+      xs: '0.875rem',    // 14px (was 12px)
+      sm: '1rem',        // 16px (was 14px)
       md: '1rem',        // 16px
       lg: '1.125rem',    // 18px
       xl: '1.25rem',     // 20px
@@ -418,11 +462,11 @@ export const mixins = {
       background: ${theme.colors.surface};
     }
     &::-webkit-scrollbar-thumb {
-      background: ${theme.colors.gray[400]};
+      background: ${theme.colors.black[300]};
       border-radius: 3px;
     }
     &::-webkit-scrollbar-thumb:hover {
-      background: ${theme.colors.gray[500]};
+      background: ${theme.colors.black[400]};
     }
   `,
 

@@ -117,10 +117,13 @@ const ModalContainer = styled.div<{
     `}
 
   ${({ $customHeight }) =>
-    $customHeight &&
-    css`
-      height: ${$customHeight};
-    `}
+    $customHeight
+      ? css`
+          height: ${$customHeight};
+        `
+      : css`
+          height: auto;
+        `}
 `;
 
 // 모달 헤더

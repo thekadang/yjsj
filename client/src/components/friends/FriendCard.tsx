@@ -16,11 +16,11 @@ interface FriendCardProps {
   onDelete?: (friendId: number) => void;
 }
 
-// 관계 타입별 색상
+// 관계 타입별 색상 - 올드머니 웜톤
 const relationshipColors: Record<string, string> = {
-  family: '#e74c3c',    // 가족 - 빨강
-  bestie: '#f39c12',    // 찐친 - 주황
-  friend: '#27ae60',    // 친구 - 초록
+  family: '#8a654d',    // 가족 - 다크 캐멀
+  bestie: '#b8906d',    // 찐친 - 캐멀 베이지
+  friend: '#6d7f6d',    // 친구 - 세이지 그린
 };
 
 // 스타일드 컴포넌트
@@ -33,6 +33,9 @@ const CardContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   transition: all ${({ theme }) => theme.transitions.fast};
+  height: 400px;
+  box-sizing: border-box;
+  overflow-y: auto;
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.sm};

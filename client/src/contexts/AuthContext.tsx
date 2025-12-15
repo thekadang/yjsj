@@ -122,6 +122,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (storedUser && storedToken) {
           setUser(JSON.parse(storedUser));
+        } else {
+          // 🎯 개발 모드: 자동 로그인 (더미 사용자)
+          const mockUser: User = {
+            id: 1,
+            username: 'testuser',
+            name: '테스트 사용자',
+            phone_number: '010-1234-5678',
+            birthdate: '1990-01-01',
+            address: '서울특별시 강남구',
+            detail_address: '테헤란로 123',
+            zipcode: '06234',
+          };
+          const mockToken = 'mock-jwt-token-for-development';
+          
+          setUser(mockUser);
+          localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(mockUser));
+          localStorage.setItem(STORAGE_KEYS.TOKEN, mockToken);
+          
+          console.log('🔓 자동 로그인 완료 (개발 모드)');
+          console.log('사용자:', mockUser.name);
         }
       } catch (err) {
         console.error('Auth initialization error:', err);

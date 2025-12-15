@@ -109,7 +109,7 @@ const FriendStats: React.FC<FriendStatsProps> = ({ stats, isOwner }) => {
 
   return (
     <Container>
-      <Title>👥 친구 ({total}명)</Title>
+      <Title>친구 ({total}명)</Title>
       <StatsGrid>
         {Object.entries(defaultStats).map(([type, count]) => (
           <StatItem key={type} $type={type} onClick={() => navigate('/friends')}>

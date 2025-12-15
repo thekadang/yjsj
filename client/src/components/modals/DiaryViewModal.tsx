@@ -79,7 +79,7 @@ const AuthorAvatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #b8906d 0%, #8a654d 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,7 +262,7 @@ const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   // 로딩 상태
   if (loading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="📖 일기" size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} title="일기" size="lg">
         <LoadingState>로딩 중...</LoadingState>
       </Modal>
     );
@@ -271,9 +271,9 @@ const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   // 에러 상태
   if (error) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="📖 일기" size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} title="일기" size="lg">
         <ErrorState>
-          <span>⚠️</span>
+          <span>!</span>
           <span>{error}</span>
         </ErrorState>
         <ModalFooter>
@@ -288,9 +288,9 @@ const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   // 일기가 없는 경우
   if (!diary) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="📖 일기" size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} title="일기" size="lg">
         <ErrorState>
-          <span>📭</span>
+          <span>-</span>
           <span>일기를 찾을 수 없습니다.</span>
         </ErrorState>
         <ModalFooter>
@@ -305,7 +305,7 @@ const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   // 삭제 확인 상태
   if (showDeleteConfirm) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="📖 일기 삭제" size="sm">
+      <Modal isOpen={isOpen} onClose={onClose} title="일기 삭제" size="sm">
         <DeleteConfirm>
           <DeleteConfirmText>
             정말 이 일기를 삭제하시겠습니까?<br />
@@ -334,7 +334,7 @@ const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="📖 일기" size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title="일기" size="lg">
       <Container>
         {/* 메타 정보 */}
         <DiaryMeta>
@@ -366,7 +366,7 @@ const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
         {/* 오디오 */}
         {diary.audioUrl && (
           <AudioSection>
-            <AudioLabel>🎵 음성 메시지</AudioLabel>
+            <AudioLabel>음성 메시지</AudioLabel>
             <AudioPlayer src={diary.audioUrl} controls />
           </AudioSection>
         )}

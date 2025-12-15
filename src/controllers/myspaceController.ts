@@ -18,6 +18,52 @@ export const getMySpace = async (req: AuthRequest, res: Response) => {
       return res.status(401).json({ success: false, error: '인증이 필요합니다.' });
     }
 
+    // 🎯 개발 모드: Mock 데이터 반환 (user ID = 1)
+    if (req.user.id === 1) {
+      return res.json({
+        success: true,
+        data: {
+          user: {
+            id: 1,
+            username: 'testuser',
+            name: '테스트 사용자',
+            phone: '010-1234-5678',
+            birthdate: '1990-01-01',
+            address: '서울특별시 강남구',
+            detailAddress: '테헤란로 123',
+            insuranceStatus: 'not_joined',
+            joinedAt: new Date().toISOString()
+          },
+          profileImage: null,
+          epitaph: '영원히 사랑하는 사람들과 함께...',
+          recentDiaries: [
+            {
+              id: 1,
+              content: '오늘은 정말 행복한 하루였어요. 가족들과 함께한 시간이 너무 소중했습니다.',
+              audioUrl: null,
+              createdAt: new Date().toISOString(),
+              visibility: ['가족', '친구']
+            },
+            {
+              id: 2,
+              content: '추억이 담긴 사진들을 정리하면서 많은 생각이 들었습니다.',
+              audioUrl: null,
+              createdAt: new Date(Date.now() - 86400000).toISOString(),
+              visibility: ['가족']
+            }
+          ],
+          mediaGallery: [],
+          friendStats: {
+            '가족': 5,
+            '친구': 12,
+            '지인': 8
+          },
+          totalDiaries: 2,
+          totalMedia: 0
+        }
+      });
+    }
+
     // 사용자 정보 조회
     const userResult = await query(
       `SELECT id, username, name, phone_number, birthdate, address, detail_address,

@@ -39,9 +39,15 @@ const FeedList = styled.div`
 const FeedCard = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
   background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 400px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 
   &:hover {
     transform: translateY(-2px);
@@ -54,6 +60,7 @@ const AuthorSection = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.md};
+  flex-shrink: 0;
 `;
 
 const AuthorAvatar = styled.div<{ $imageUrl?: string | null }>`
@@ -113,6 +120,7 @@ const DiaryContent = styled.p`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 `;
 
 const DiaryMeta = styled.div`
@@ -257,7 +265,7 @@ const FriendNewsSection: React.FC<FriendNewsSectionProps> = ({ onViewDiary }) =>
     return (
       <Container>
         <Header>
-          <Title>📰 친구 소식</Title>
+        <Title>친구 소식</Title>
         </Header>
         <LoadingState>로딩 중...</LoadingState>
       </Container>
@@ -268,7 +276,7 @@ const FriendNewsSection: React.FC<FriendNewsSectionProps> = ({ onViewDiary }) =>
     return (
       <Container>
         <Header>
-          <Title>📰 친구 소식</Title>
+        <Title>친구 소식</Title>
         </Header>
         <ErrorState>{error}</ErrorState>
       </Container>
@@ -283,7 +291,7 @@ const FriendNewsSection: React.FC<FriendNewsSectionProps> = ({ onViewDiary }) =>
 
       {feed.length === 0 ? (
         <EmptyState>
-          <EmptyIcon>📭</EmptyIcon>
+          <EmptyIcon>-</EmptyIcon>
           <EmptyTitle>아직 친구 소식이 없습니다</EmptyTitle>
           <EmptyDescription>
             친구가 일기를 공유하면 여기에 표시됩니다.
@@ -313,7 +321,7 @@ const FriendNewsSection: React.FC<FriendNewsSectionProps> = ({ onViewDiary }) =>
                 <DiaryMeta>
                   <DiaryDate>{formatDate(diary.createdAt)}</DiaryDate>
                   {diary.audioUrl && (
-                    <AudioIndicator>🎵 음성</AudioIndicator>
+                    <AudioIndicator>음성</AudioIndicator>
                   )}
                 </DiaryMeta>
               </FeedCard>

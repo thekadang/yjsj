@@ -260,7 +260,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
   return (
     <Container>
       <Header>
-        <Title>🖼️ 미디어 갤러리</Title>
+        <Title>미디어 갤러리</Title>
         {isOwner && (
           <UploadButtons>
             <Button
@@ -269,7 +269,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
               onClick={() => imageInputRef.current?.click()}
               disabled={isUploading}
             >
-              📷 사진 업로드
+              사진 업로드
             </Button>
             <Button
               variant="outline"
@@ -277,7 +277,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
               onClick={() => audioInputRef.current?.click()}
               disabled={isUploading}
             >
-              🎵 음성 업로드
+              음성 업로드
             </Button>
           </UploadButtons>
         )}
@@ -328,7 +328,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
                 />
               ) : (
                 <AudioItem>
-                  <AudioIcon>🎵</AudioIcon>
+                  <AudioIcon>♪</AudioIcon>
                   <AudioName>{item.originalName}</AudioName>
                 </AudioItem>
               )}
@@ -340,13 +340,13 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
                         $variant="download"
                         onClick={(e) => handleDownload(item.id, 'opus', e)}
                       >
-                        📥 다운로드 (Opus)
+                        ↓ 다운로드 (Opus)
                       </OverlayButton>
                       <OverlayButton
                         $variant="download"
                         onClick={(e) => handleDownload(item.id, 'mp3', e)}
                       >
-                        📥 다운로드 (MP3)
+                        ↓ 다운로드 (MP3)
                       </OverlayButton>
                     </>
                   )}
@@ -355,7 +355,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
                       $variant="delete"
                       onClick={(e) => handleDelete(item.id, e)}
                     >
-                      🗑️ 삭제
+                      × 삭제
                     </OverlayButton>
                   )}
                 </OverlayButtons>

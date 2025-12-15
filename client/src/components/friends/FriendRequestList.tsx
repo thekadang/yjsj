@@ -3,15 +3,19 @@
  * 받은/보낸 친구 신청 목록을 표시합니다.
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import styled, { css } from 'styled-components';
-import { Button } from '../common';
-import { friendService } from '../../services/friendService';
-import type { ReceivedFriendRequest, SentFriendRequest, RelationshipType } from '../../types';
+import React, { useState, useEffect, useCallback } from "react";
+import styled, { css } from "styled-components";
+import { Button } from "../common";
+import { friendService } from "../../services/friendService";
+import type {
+  ReceivedFriendRequest,
+  SentFriendRequest,
+  RelationshipType,
+} from "../../types";
 
 // Props 인터페이스
 interface FriendRequestListProps {
-  type: 'received' | 'sent';
+  type: "received" | "sent";
   onRequestHandled?: () => void;
 }
 
@@ -31,6 +35,9 @@ const RequestCard = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   transition: all ${({ theme }) => theme.transitions.fast};
+  height: 400px;
+  box-sizing: border-box;
+  overflow-y: auto;
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.sm};
@@ -95,12 +102,12 @@ const StatusBadge = styled.span<{ $status: string }>`
 
   ${({ $status, theme }) => {
     switch ($status) {
-      case 'ACCEPTED':
+      case "ACCEPTED":
         return css`
           background-color: ${theme.colors.successLight};
           color: ${theme.colors.success};
         `;
-      case 'REJECTED':
+      case "REJECTED":
         return css`
           background-color: ${theme.colors.errorLight};
           color: ${theme.colors.error};
@@ -178,10 +185,16 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
   type,
   onRequestHandled,
 }) => {
-  const [receivedRequests, setReceivedRequests] = useState<ReceivedFriendRequest[]>([]);
+  const [receivedRequests, setReceivedRequests] = useState<
+    ReceivedFriendRequest[]
+  >([]);
   const [sentRequests, setSentRequests] = useState<SentFriendRequest[]>([]);
-  const [relationshipTypes, setRelationshipTypes] = useState<RelationshipType[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<Record<number, number>>({});
+  const [relationshipTypes, setRelationshipTypes] = useState<
+    RelationshipType[]
+  >([]);
+  const [selectedTypes, setSelectedTypes] = useState<Record<number, number>>(
+    {}
+  );
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<number | null>(null);
 
@@ -197,7 +210,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
       }
 
       // 요청 목록 로드
-      if (type === 'received') {
+      if (type === "received") {
         const res = await friendService.getReceivedRequests();
         if (res.success && res.data) {
           const data = res.data as { requests?: ReceivedFriendRequest[] };
@@ -211,7 +224,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
         }
       }
     } catch (err) {
-      console.error('Load requests error:', err);
+      console.error("Load requests error:", err);
     } finally {
       setLoading(false);
     }
@@ -225,10 +238,10 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
   // 날짜 포맷팅
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return date.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -236,19 +249,23 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
   const handleAccept = async (requestId: number) => {
     const relationshipTypeId = selectedTypes[requestId];
     if (!relationshipTypeId) {
-      alert('관계 타입을 선택해주세요.');
+      alert("관계 타입을 선택해주세요.");
       return;
     }
 
     setProcessing(requestId);
     try {
-      const result = await friendService.respondToRequest(requestId, 'accept', relationshipTypeId);
+      const result = await friendService.respondToRequest(
+        requestId,
+        "accept",
+        relationshipTypeId
+      );
       if (result.success) {
         setReceivedRequests((prev) => prev.filter((r) => r.id !== requestId));
         onRequestHandled?.();
       }
     } catch (err) {
-      console.error('Accept request error:', err);
+      console.error("Accept request error:", err);
     } finally {
       setProcessing(null);
     }
@@ -256,17 +273,17 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
 
   // 친구 신청 거절
   const handleReject = async (requestId: number) => {
-    if (!window.confirm('친구 신청을 거절하시겠습니까?')) return;
+    if (!window.confirm("친구 신청을 거절하시겠습니까?")) return;
 
     setProcessing(requestId);
     try {
-      const result = await friendService.respondToRequest(requestId, 'reject');
+      const result = await friendService.respondToRequest(requestId, "reject");
       if (result.success) {
         setReceivedRequests((prev) => prev.filter((r) => r.id !== requestId));
         onRequestHandled?.();
       }
     } catch (err) {
-      console.error('Reject request error:', err);
+      console.error("Reject request error:", err);
     } finally {
       setProcessing(null);
     }
@@ -274,7 +291,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
 
   // 친구 신청 취소
   const handleCancel = async (requestId: number) => {
-    if (!window.confirm('친구 신청을 취소하시겠습니까?')) return;
+    if (!window.confirm("친구 신청을 취소하시겠습니까?")) return;
 
     setProcessing(requestId);
     try {
@@ -284,7 +301,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
         onRequestHandled?.();
       }
     } catch (err) {
-      console.error('Cancel request error:', err);
+      console.error("Cancel request error:", err);
     } finally {
       setProcessing(null);
     }
@@ -296,11 +313,10 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
   }
 
   // 받은 친구 신청
-  if (type === 'received') {
+  if (type === "received") {
     if (receivedRequests.length === 0) {
       return (
         <EmptyState>
-          <EmptyIcon>📬</EmptyIcon>
           <EmptyText>받은 친구 신청이 없습니다.</EmptyText>
         </EmptyState>
       );
@@ -311,9 +327,13 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
         {receivedRequests.map((request) => (
           <RequestCard key={request.id}>
             <UserInfo>
-              <Avatar $isReceived>{request.sender_name?.charAt(0) || '?'}</Avatar>
+              <Avatar $isReceived>
+                {request.sender_name?.charAt(0) || "?"}
+              </Avatar>
               <UserDetails>
-                <UserName>{request.sender_name || request.sender_username}</UserName>
+                <UserName>
+                  {request.sender_name || request.sender_username}
+                </UserName>
                 <ProposedRelationship>
                   {request.proposed_relationship}(으)로 친구 신청
                 </ProposedRelationship>
@@ -325,7 +345,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
               <SelectWrapper>
                 <SelectLabel>나에게 이 친구는:</SelectLabel>
                 <Select
-                  value={selectedTypes[request.id] || ''}
+                  value={selectedTypes[request.id] || ""}
                   onChange={(e) =>
                     setSelectedTypes((prev) => ({
                       ...prev,
@@ -346,7 +366,9 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
                   variant="primary"
                   size="sm"
                   onClick={() => handleAccept(request.id)}
-                  disabled={processing === request.id || !selectedTypes[request.id]}
+                  disabled={
+                    processing === request.id || !selectedTypes[request.id]
+                  }
                   isLoading={processing === request.id}
                 >
                   수락
@@ -371,7 +393,6 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
   if (sentRequests.length === 0) {
     return (
       <EmptyState>
-        <EmptyIcon>📤</EmptyIcon>
         <EmptyText>보낸 친구 신청이 없습니다.</EmptyText>
       </EmptyState>
     );
@@ -383,10 +404,12 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
         <RequestCard key={request.id}>
           <UserInfo>
             <Avatar $isReceived={false}>
-              {request.receiver_name?.charAt(0) || '?'}
+              {request.receiver_name?.charAt(0) || "?"}
             </Avatar>
             <UserDetails>
-              <UserName>{request.receiver_name || request.receiver_username}</UserName>
+              <UserName>
+                {request.receiver_name || request.receiver_username}
+              </UserName>
               <ProposedRelationship>
                 {request.proposed_relationship}(으)로 신청함
               </ProposedRelationship>
@@ -395,7 +418,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
           </UserInfo>
 
           <Actions>
-            {request.status === 'PENDING' ? (
+            {request.status === "PENDING" ? (
               <Button
                 variant="outline"
                 size="sm"
@@ -407,7 +430,7 @@ export const FriendRequestList: React.FC<FriendRequestListProps> = ({
               </Button>
             ) : (
               <StatusBadge $status={request.status}>
-                {request.status === 'ACCEPTED' ? '수락됨' : '거절됨'}
+                {request.status === "ACCEPTED" ? "수락됨" : "거절됨"}
               </StatusBadge>
             )}
           </Actions>

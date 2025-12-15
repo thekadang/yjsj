@@ -50,9 +50,15 @@ const DiaryList = styled.div`
 const DiaryCard = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
   background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 400px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 
   &:hover {
     transform: translateY(-2px);
@@ -69,6 +75,7 @@ const DiaryContent = styled.p`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 `;
 
 const DiaryMeta = styled.div`
@@ -155,7 +162,7 @@ const DiarySection: React.FC<DiarySectionProps> = ({
   return (
     <Container>
       <Header>
-        <Title>📖 일기장</Title>
+        <Title>일기장</Title>
         {isOwner && (
           <Button variant="primary" size="sm" onClick={onCreateDiary}>
             일기 쓰기
@@ -185,7 +192,7 @@ const DiarySection: React.FC<DiarySectionProps> = ({
                   <DiaryDate>{formatDate(diary.createdAt)}</DiaryDate>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {diary.audioUrl && (
-                      <AudioIndicator>🎵 음성</AudioIndicator>
+                      <AudioIndicator>음성</AudioIndicator>
                     )}
                     {diary.visibility && diary.visibility.length > 0 && (
                       <VisibilityBadges>

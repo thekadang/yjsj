@@ -35,6 +35,15 @@ export const requireAuth = (req: AuthRequest, res: Response, next: NextFunction)
     return res.status(401).json({ success: false, error: '인증 토큰이 필요합니다.' });
   }
 
+  // 🎯 개발 모드: Mock 토큰 허용
+  if (token === 'mock-jwt-token-for-development') {
+    req.user = {
+      id: 1,
+      name: '테스트 사용자'
+    };
+    return next();
+  }
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as JwtPayload;
     req.user = decoded.user;

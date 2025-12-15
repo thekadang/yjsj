@@ -373,7 +373,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="💬 남기는 말 관리"
+      title="남기는 말 관리"
       size="md"
       closeOnOverlayClick={!loading}
       closeOnEsc={!loading}
@@ -406,10 +406,10 @@ const MessageModal: React.FC<MessageModalProps> = ({
         {/* 탭 */}
         <TabContainer>
           <Tab $active={activeTab === 'write'} onClick={() => setActiveTab('write')}>
-            ✏️ 새로 작성
+            새로 작성
           </Tab>
           <Tab $active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
-            📜 이력 ({history.length})
+            이력 ({history.length})
           </Tab>
         </TabContainer>
 
